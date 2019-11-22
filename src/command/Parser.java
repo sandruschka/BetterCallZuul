@@ -38,19 +38,33 @@ public class Parser {
 		reader = new Scanner(Game.in.in);
 		MYPACKAGE = pkg + '.';
 	}
+	
+	public Command getCommandFromInput() {
+		Game.out.print("> "); // print prompt
+		return getCommand(reader.nextLine());
+	}
 
+	
+	public Command getCommandFromGUI(String command) {
+		return getCommand(command);
+	}
 	/**
 	 * @return The next command from the user.
 	 */
-	public Command getCommand() {
+	public Command getCommand(String input) {
+		
 		String inputLine; // will hold the full input line
 		String word1 = null;
 		String word2 = null;
 		String word3 = null;
+		
+		
 
-		Game.out.print("> "); // print prompt
-
-		inputLine = reader.nextLine();
+		
+		
+		// TODO Express if reading from input
+		
+			inputLine = input;
 
 		try ( // Find up to two words on the line.
 				// Note this construct will auto close the input

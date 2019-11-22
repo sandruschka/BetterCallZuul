@@ -83,14 +83,14 @@ public abstract class Game {
          *  execute them until the game is over.
          */
        
-        boolean finished = false;
-        while (!finished) {
-            Command command = parser.getCommand();
-            allRooms.entrySet().stream().forEach(r -> {
-                ((Room) r.getValue()).process();
-            });
-            finished = processCommand(command);
-        }
+      //  boolean finished = false;
+    //    while (!finished) {
+//            Command command = parser.getCommandFromInput();
+//            allRooms.entrySet().stream().forEach(r -> {
+//                ((Room) r.getValue()).process();
+//            });
+//            finished = processCommand(command);
+   //     }
         Game.out.println(messages.getString("goodbye")); //Thank you for playing.  Good bye.
     }
 
@@ -101,6 +101,11 @@ public abstract class Game {
         getWelcomeStrings().stream().forEach((str) -> {
             Game.out.println(str);
         });
+    }
+    
+    public void processControllerCommand(String command) {
+    	Command cmd = parser.getCommandFromGUI(command);
+    	cmd.execute(player);
     }
 
     /**

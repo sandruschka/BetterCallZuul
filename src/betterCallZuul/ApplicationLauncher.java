@@ -25,7 +25,7 @@ public class ApplicationLauncher extends Application {
 		  	loader.setController(new Controller(game));
 		  	VBox vbox = loader.<VBox>load();
 		  	
-	        Scene scene = new Scene (vbox, 800, 800);
+	        Scene scene = new Scene(vbox);
 	        stage.setScene(scene);
 	        stage.show();
 	        
@@ -33,7 +33,7 @@ public class ApplicationLauncher extends Application {
 	    	
 	    	
 	    	// Start specific game 
-	        game.play();
+	      
 	        
 	        
 	    }

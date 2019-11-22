@@ -18,7 +18,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="600.0" maxWidth="900.0" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -93,9 +93,9 @@
         </AnchorPane>
         <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
           <content>
-            <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="430.0">
+            <AnchorPane id="Content" minHeight="545.0" minWidth="430.0" prefHeight="545.0" prefWidth="430.0">
               <children>
-                <Label alignment="CENTER" font="$x1" layoutX="136.0" layoutY="14.0" style="&#10;" text="Room description" textFill="$x2" wrapText="false" />
+                <Label fx:id="roomDescription" alignment="CENTER" font="$x1" layoutX="-4.0" layoutY="-3.0" prefHeight="169.0" prefWidth="436.0" style="&#10;" text="Room Description" textFill="$x2" wrapText="false" />
                         <ButtonBar layoutX="20.0" layoutY="491.0" prefHeight="40.0" prefWidth="200.0">
                           <buttons>
                             <Button fx:id="northButton" mnemonicParsing="false" onAction="#northButtonClick" text="North" />

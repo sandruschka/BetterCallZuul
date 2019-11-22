@@ -1,16 +1,19 @@
 package betterCallZuul;
 
+import command.Command;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import mygame.MyGame;
 
 public class Controller {
 
-	private MyGame mygame;
+	private MyGame myGame;
 	
-	public Controller(MyGame mygame) {
-		this.mygame = mygame;
+	public Controller(Game mygame) {
+		this.myGame = (MyGame)mygame;
+		myGame.play();
 	}
 	
 //	@FXML
@@ -23,10 +26,13 @@ public class Controller {
 //	}
 	
 	@FXML
-	private Button northButton;
+	public Button northButton;
 	
 	@FXML
-	private void northButtonClick() {
-		
+	public void northButtonClick() {
+	 
+		myGame.processControllerCommand("go north");
 	}
+	
+	public Label roomDescription;
 }

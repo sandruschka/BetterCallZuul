@@ -26,7 +26,7 @@ public class MyGame extends Game {
     @Override
     protected void createRooms() {
         
-        Room outside, theatre, pub, lab, office;
+        //Room outside, theatre, pub, lab, office;
         Map<String, Room> allRooms = new HashMap<>();
     
         try {
@@ -61,13 +61,12 @@ public class MyGame extends Game {
         // add a character
         // here I create a new anonymous class that is a subclass of Character with a
         // different execute method
-//        lab.addCharacter(new Character(messages.getString("Cecilia"), lab) {
-//            @Override
-//            public void execute() {
-//                randomMove();
-//            }
-//        });
-
+        allRooms.get("outside").addCharacter(new Character(messages.getString("Cecilia"), allRooms.get("outside")) {
+            @Override
+            public void execute() {
+                randomMove();
+            }
+        });
         setAllRooms(allRooms);
         setPlayer(new Player(messages.getString("me"), allRooms.get("outside")));  // start game outside
     }
