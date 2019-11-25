@@ -40,7 +40,7 @@ public class Parser {
 	}
 	
 	public Command getCommandFromInput() {
-		Game.out.print("> "); // print prompt
+		Game.out.println("> "); // print prompt
 		return getCommand(reader.nextLine());
 	}
 

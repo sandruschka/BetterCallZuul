@@ -65,7 +65,7 @@ public class RoomData implements GameData {
             try {
              items.put(data.get(i), new Item(data.get(i), Integer.valueOf(data.get(i + 1))));
             } catch(NullPointerException e) {
-                System.out.println(e.getMessage());
+                System.err.println(e.getMessage());
             }
         }
         System.out.println("ITEMS in map: " + items);

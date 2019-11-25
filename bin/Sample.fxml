@@ -73,12 +73,12 @@
             </Label>
                   <VBox layoutY="40.0" prefHeight="226.0" prefWidth="221.0">
                      <children>
-                        <ListView prefHeight="227.0" prefWidth="221.0" />
+                        <ListView fx:id="itemListView" prefHeight="227.0" prefWidth="221.0" />
                      </children>
                   </VBox>
                   <VBox layoutY="300.0" prefHeight="248.0" prefWidth="220.0">
                      <children>
-                        <ListView prefHeight="248.0" prefWidth="220.0" />
+                        <ListView fx:id="characterListView" prefHeight="248.0" prefWidth="220.0" />
                      </children>
                   </VBox>
                   <Label alignment="CENTER" layoutX="11.0" layoutY="274.0" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Characters" textAlignment="CENTER" wrapText="false">
@@ -95,13 +95,13 @@
           <content>
             <AnchorPane id="Content" minHeight="545.0" minWidth="430.0" prefHeight="545.0" prefWidth="430.0">
               <children>
-                <Label fx:id="roomDescription" alignment="CENTER" font="$x1" layoutX="136.0" layoutY="14.0" style="&#10;" text="Room description" textFill="$x2" wrapText="false" />
-                        <ButtonBar layoutX="20.0" layoutY="491.0" prefHeight="40.0" prefWidth="200.0">
+                <Label fx:id="roomDescription" alignment="CENTER" font="$x1" layoutX="-4.0" layoutY="-3.0" prefHeight="169.0" prefWidth="436.0" style="&#10;" text="Room Description" textFill="$x2" wrapText="false" />
+                        <ButtonBar layoutX="20.0" layoutY="447.0" prefHeight="84.0" prefWidth="220.0">
                           <buttons>
-                            <Button fx:id="northButton" mnemonicParsing="false" onAction="#northButtonClick" text="North" />
-                              <Button mnemonicParsing="false" text="East" />
-                              <Button mnemonicParsing="false" text="South" />
-                              <Button mnemonicParsing="false" text="West" />
+                            <Button id="north" fx:id="northButton" mnemonicParsing="false" onMouseClicked="#move" text="North" />
+                              <Button id="east" fx:id="eastButton" mnemonicParsing="false" onMouseClicked="#move" text="East" />
+                              <Button id="south" fx:id="southButton" mnemonicParsing="false" onMouseClicked="#move" text="South" />
+                              <Button id="west" fx:id="westButton" mnemonicParsing="false" onMouseClicked="#move" text="West" />
                           </buttons>
                         </ButtonBar>
               </children>
@@ -111,7 +111,10 @@
         <AnchorPane prefHeight="548.0" prefWidth="103.0">
           <children>
             <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" style="&#10;" text="Inventory" textAlignment="CENTER" textFill="$x2" wrapText="false" />
-                  <VBox layoutX="-4.0" layoutY="41.0" prefHeight="214.0" prefWidth="229.0" />
+                  <VBox layoutX="-4.0" layoutY="41.0" prefHeight="226.0" prefWidth="229.0">
+                     <children>
+                        <ListView fx:id="inventoryListView" prefHeight="230.0" prefWidth="229.0" />
+                     </children></VBox>
                   <VBox layoutY="299.0" prefHeight="248.0" prefWidth="225.0" />
           </children>
         </AnchorPane>

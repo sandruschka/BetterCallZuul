@@ -9,21 +9,19 @@ import java.util.HashMap;
  * A Player class. The player knows all about how this player responds to commands.
  * Arguably some of these actions might be better places in a game specific class in
  * zuul.mygame.
- * @author rej
+ * @author sandra
  */
 public class Player {
     private final String name;
     private Room currentRoom;
-    
-    /** A map of items the player has */
-    final private Map<String, Item> items;
-    /** the total weight of these items */
-    private int totalWeight;
+  
     // An alternative would be an Inventory class that encapsulates the Map and the totalWeight
     
     /** the max weight a player can hold. */
     private static final int MAX_WEIGHT = 10;
     // Could have per-player weights
+    
+    private Inventory inventory;
  
     
     /**
@@ -35,7 +33,8 @@ public class Player {
     	System.out.println("room" + room.getDescription());
         this.name = name;
         currentRoom = room;
-        items = new HashMap<>();
+        inventory = new Inventory();
+        //items = new HashMap<>();
     }
 
     /** @return the name */
@@ -48,24 +47,16 @@ public class Player {
     public void setCurrentRoom(String currentRoom) { this.currentRoom = Game.allRooms.get(currentRoom); }
     
     /** @return a full description of the room and its contents */
-    public List<String> getDetails() { return getCurrentRoom().getDetails(); }
+    public String getDetails() { return getCurrentRoom().getDetails(); }
 
     /** @return the max weight the player can carry */
     public int getMaxWeight() { return MAX_WEIGHT; }
     
-    /**
-     * Is something too heavy to hold
-     * @param item the item
-     * @return true iff too heavy
-     */
-    public boolean tooHeavy(Item item) { return (item.getWeight() + totalWeight > getMaxWeight()); }
-
-    /**
-     * @param desc the name of the item
-     * @return true iff the player has this item
-     */
-    public boolean hasItem(String desc) { return items.containsKey(desc); }
+    public Inventory getInventory() {
+    	return inventory;
+    }
     
+
      /*-------- Actions ------------*/ 
     // If these are generic actions for all conceivable games, then this is the right
     // place for these methods. If not, then we should put them in a zuul.mygame.player class
@@ -81,15 +72,15 @@ public class Player {
             return;
         }
         Item item = getCurrentRoom().getItem(desc);
-        if (tooHeavy(item)) {
+        if (inventory.tooHeavyToPickUp(item.getWeight(), MAX_WEIGHT)) {
             // The player is carrying too much
             Game.out.println(desc + " " + Game.messages.getString("heavy")); // is too heavy
             return;
         }
 
         item = getCurrentRoom().removeItem(desc);
-        items.put(desc, item);
-        totalWeight += item.getWeight();
+        inventory.addItem(desc, item);
+        inventory.addWeight(item.getWeight());
     }
 
     /**
@@ -97,12 +88,13 @@ public class Player {
      * @param desc the name of the item - check if the player is carrying it
      */
     public void drop(String desc) {
-        if (!hasItem(desc)) {
+        if (!inventory.hasItem(desc)) {
             Game.out.println(Game.messages.getString("dontHave") + " " + desc); // You don't have the...
             return;
         }
-        Item item = items.remove(desc);
-        totalWeight -= item.getWeight();
+        
+        Item item = inventory.removeItem(desc);
+        inventory.removeWeight(item.getWeight());
         currentRoom.addItem(desc, item);
     }
 
@@ -117,20 +109,19 @@ public class Player {
             Game.out.println(whom + " " + Game.messages.getString("room")); // is not in the room
             return;
         }
-        if (!items.containsKey(desc)) {
+        if (!inventory.isItemInInventory(desc)) {
             Game.out.println(Game.messages.getString("room") + " " + desc); // You don't have the...
             return;
         }
-        Item item = items.remove(desc);
-        totalWeight -= item.getWeight();
+        Item item = inventory.removeItem(desc);
+        inventory.removeWeight(item.getWeight());
     }
 
     /**
      * Look around the current room, giving the user some info
      */
     public void look() {
-        for (String str : getCurrentRoom().getDetails())
-        	Game.out.println(str);
+    	Game.out.println(getCurrentRoom().getDetails());
     }
 
     /**
@@ -145,7 +136,9 @@ public class Player {
             Game.out.println(Game.messages.getString("door")); // There is no door!
         } else {
             setCurrentRoom(nextRoomName);
+            Controller.getInstance().updateView();
             look();
         }
     }
+    
 }

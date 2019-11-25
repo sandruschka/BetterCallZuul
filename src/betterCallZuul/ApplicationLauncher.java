@@ -4,6 +4,8 @@ package betterCallZuul;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
@@ -18,11 +20,11 @@ public class ApplicationLauncher extends Application {
 		  	String language = "en";
 	        String country = "US";
 	        
-	        MyGame game = new mygame.MyGame(language, country);
+	        
 	        
 		  	FXMLLoader loader = new FXMLLoader();
 		  	loader.setLocation(getClass().getResource("/Sample.fxml"));
-		  	loader.setController(new Controller(game));
+		  	loader.setController(Controller.getInstance());
 		  	VBox vbox = loader.<VBox>load();
 		  	
 	        Scene scene = new Scene(vbox);
@@ -30,11 +32,9 @@ public class ApplicationLauncher extends Application {
 	        stage.show();
 	        
 	        
-	    	
-	    	
-	    	// Start specific game 
-	      
-	        
+	        // Start specific game
+	        MyGame.getInstance().play();
+	   
 	        
 	    }
 
@@ -42,5 +42,8 @@ public class ApplicationLauncher extends Application {
 	        launch(args);
 	    }
 
+	    public void guiSetup() {
+	    	
+	    }
 
 }

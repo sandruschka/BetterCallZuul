@@ -8,17 +8,42 @@ import java.util.List;
 import java.util.Map;
 
 import betterCallZuul.Character;
+import betterCallZuul.Controller;
 import betterCallZuul.Game;
 import betterCallZuul.Player;
 import betterCallZuul.Room;
 import betterCallZuul.RoomGenerator;
+import javafx.beans.binding.Bindings;
 
 public class MyGame extends Game {
 
 	private RoomGenerator roomGenerator;
+	private static MyGame myGame;
 	
-    public MyGame(String language, String country) {
-    	super(language, country, new CommandWords());
+    private MyGame() {
+    	
+    	super("en", "US", new CommandWords());
+    	setup();
+    	
+    }
+    
+    public static MyGame getInstance() {
+    	if (myGame == null)
+    		myGame = new MyGame();
+    	return myGame;
+    }
+    
+    
+    private void setup() {
+//    	Controller controller = Controller.getInstance();
+//    	
+//    	
+//    	controller.roomDescription.setText(String.valueOf(out.getGameOutput()));
+//    	controller.roomDescription.textProperty().bind(out.getGameOutput());
+    	
+    	
+    	//listview = ObservableList<String> observableList = FXCollections.observableList(list);
+    	
     	
     }
 	
@@ -32,7 +57,6 @@ public class MyGame extends Game {
         try {
         	roomGenerator = new RoomGenerator();
 			allRooms = roomGenerator.generate(csvParser.parseCSV("src/betterCallZuul/game1.csv"));
-			System.out.println("Allrooms: " + allRooms);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -72,14 +96,7 @@ public class MyGame extends Game {
     }
     
     @Override
-    protected List<String> getWelcomeStrings() {
-    	List<String> rv = new LinkedList<>();
-    	rv.add("");
-    	rv.add(messages.getString("welcome")); // Welcome to the World of Zuul!
-    	rv.add(messages.getString("zuul")); // World of Zuul is a new, incredibly boring adventure game.
-    	rv.add(messages.getString("getHelp")); // Type 'help' if you need help.
-    	rv.add("");
-    	rv.addAll(getPlayer().getDetails());
-    	return rv;
+    protected String getWelcomeString() {
+    	return "\n" + messages.getString("welcome") + messages.getString("zuul") + messages.getString("getHelp") + "\n" +  getPlayer();
     }
 }

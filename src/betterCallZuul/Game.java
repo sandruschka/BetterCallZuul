@@ -50,7 +50,7 @@ public abstract class Game {
     public static CommandWords commands;
     private final Parser parser;
 
-    private Player player;
+    public static Player player;
     static Map<String, Room> allRooms;
 
     protected CSVparser csvParser;
@@ -78,29 +78,16 @@ public abstract class Game {
     public void play() {
         printWelcome();
 
-        /**
-         *  Enter the main command loop.  Here we repeatedly read commands and
-         *  execute them until the game is over.
-         */
-       
-      //  boolean finished = false;
-    //    while (!finished) {
-//            Command command = parser.getCommandFromInput();
-//            allRooms.entrySet().stream().forEach(r -> {
-//                ((Room) r.getValue()).process();
-//            });
-//            finished = processCommand(command);
-   //     }
-        Game.out.println(messages.getString("goodbye")); //Thank you for playing.  Good bye.
+        //Game.out.gameOutput(messages.getString("goodbye")); //Thank you for playing.  Good bye.
     }
 
     /**
      * Print out the opening message for the player.
      */
     private void printWelcome() {
-        getWelcomeStrings().stream().forEach((str) -> {
-            Game.out.println(str);
-        });
+      
+        Game.out.println(getWelcomeString());
+      
     }
     
     public void processControllerCommand(String command) {
@@ -156,6 +143,6 @@ public abstract class Game {
     /*
      * All the welcome messages
      */
-    protected abstract List<String> getWelcomeStrings();
+    protected abstract String getWelcomeString();
 
 }

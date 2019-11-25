@@ -1,5 +1,6 @@
 package betterCallZuul;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,9 +30,9 @@ public class Room
     /** Exits from the room */
     final private Map<String, Room> exits;   
     /** Items in the room */
-    final private Map<String,Item> items;   
+    final private Map<String, Item> items;   
     /** Characters in the room */
-    final private Map<String,Character> characters;
+    final private Map<String, Character> characters;
     
     /**Direction, room-id */
     private Map<String, String> exitTranslator;
@@ -104,10 +105,7 @@ public class Room
      * @return the room to go to
      */
     public String getExit(String direction) {
-    	
-    	return exitTranslator.get(direction);
-    	
-    	//return exitTranslator.get(direction); 
+    	return exitTranslator.get(direction); 
 	}
     
     /**
@@ -115,34 +113,34 @@ public class Room
      */
     public String getDescription() { return description; }
     
-    public List<String> getDetails() {
+    public String getDetails() {
+    	
+    	String itemsString = "", exitString = "", characterString = "";
     	
     	System.out.println("item: " + items + "   exits: " + exitTranslator + "    characters: " + characters);
-    	List<String> rv = new LinkedList<>();
-        rv.add(Game.messages.getString("in") + " " + getDescription()); //You are in
-        
-        String tmp = Game.messages.getString("exits") + ": ";
-        
-        System.out.println(exitTranslator);
-        tmp = exitTranslator.entrySet().stream().
+    	
+    	itemsString = items.keySet().stream()
+            	.map((desc) -> desc + '(' + items.get(desc).getWeight() + ") ")
+            	.reduce(itemsString, String::concat);
+    	
+    	exitString = exitTranslator.entrySet().stream().
         		filter(e -> !e.getValue().equalsIgnoreCase("null"))
         		.map(e -> e.getKey() + ' ')
-        		.reduce(tmp, String::concat);
-        rv.add(tmp);
-        
-        tmp = Game.messages.getString("items") + ": ";
-        tmp = items.keySet().stream()
-                .map((desc) -> desc + '(' + items.get(desc).getWeight() + ") ")
-                .reduce(tmp, String::concat);
-        rv.add(tmp);
-        
-        tmp = Game.messages.getString("characters") + ": ";
-        tmp = characters.keySet().stream()
-                .map((desc) -> desc + ' ')
-                .reduce(tmp, String::concat);    
-        rv.add(tmp);
-        
-        return rv;
+        		.reduce(exitString, String::concat);
+    	
+    	characterString = characters.keySet().stream()
+            	.map((desc) -> desc + ' ')
+            	.reduce(characterString, String::concat);
+    	
+        return Game.messages.getString("in") + " " + getDescription() + "\n"
+        		+
+        		Game.messages.getString("exits") + ": "
+        		+
+        		exitString + "\n"
+        		+ 
+    			Game.messages.getString("items") + ": " + itemsString + "\n"
+    			+
+        		Game.messages.getString("characters") + ": " + characterString + "\n";
     }
     
     /**
@@ -167,6 +165,12 @@ public class Room
      */
     public boolean containsItem(String description) { return items.containsKey(description); }
     
+    
+    public List<String> getItemsString() {
+    	return items.keySet().stream()
+            	.map((desc) -> desc + '(' + items.get(desc).getWeight() + ") ")
+            	.collect(Collectors.toList());
+    }
     /*
      * Get an item from the room if it is there
      */
@@ -187,6 +191,11 @@ public class Room
         }
     }
 
+    public List<String> getCharacter() {
+    	return characters.keySet().stream()
+            	.map((desc) -> desc)
+            	.collect(Collectors.toList());
+    }
     /**
      * Get a character in the room
      * @param name the name of the Character
