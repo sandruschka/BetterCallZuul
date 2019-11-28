@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import EditGame.AddItemsInRooms;
 import EditGame.RemoveRooms;
+import EditGame.RemoveRoomsWithNoExit;
+import EditGame.RemoveRoomsWithNoItems;
 import Utils.RegexUtils;
 import io.Out;
 import javafx.application.Platform;
@@ -264,8 +266,13 @@ public class GameController {
 	}
 	
 	@FXML
+	public void removeRoomsWithNoItems() {
+		new RemoveRoomsWithNoItems().execute();
+	}
+
+	@FXML
 	public void removeRoomsWithNoExit() {
-		new RemoveRooms().removeRoomsWithNoExits();
+		new RemoveRoomsWithNoExit().execute();
 	}
 	
 	public void updateView() {

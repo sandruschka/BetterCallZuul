@@ -44,7 +44,7 @@
             <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" onAction="#addItemToAllRooms" text="Add a user-specified item (and its weight) in all rooms with exits" />
                   <MenuItem mnemonicParsing="false" onAction="#removeRoomsWithNoExit" text="Remove all rooms without exits" />
-                  <MenuItem mnemonicParsing="false" text="Remove all rooms without items" />
+                  <MenuItem mnemonicParsing="false" onAction="#removeRoomsWithNoItems" text="Remove all rooms without items" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">

@@ -28,7 +28,7 @@ public class Room
     /** Description of the room */
     final private String description;
     /** Exits from the room */
-    final private Map<String, Room> exits;   
+    //final private Map<String, Room> exits;   
     /** Items in the room */
     final private Map<String, Item> items;   
     /** Characters in the room */
@@ -46,7 +46,7 @@ public class Room
     public Room(String description) 
     {
         this.description = description;
-        exits = new HashMap<>();
+       // exits = new HashMap<>();
         items = new HashMap<>();
         characters = new HashMap<>();
         exitTranslator = new HashMap<>();
@@ -55,12 +55,24 @@ public class Room
     public void setExitTranslator(List<String> exits) {
     	
     	System.out.println("EXITS: " + exits);
+    	
+    	
         exitTranslator = Stream.of(new String[][] {
             { "north", exits.get(0)}, 
             { "east", exits.get(1) },
             { "south", exits.get(2) },
             { "west", exits.get(3) },
         }).collect(Collectors.toMap(data -> data[0], data -> data[1]));
+    }
+    
+    public List<String> getAllExits() {
+    	
+    	List<String> res = new ArrayList<String>();
+    	
+    	return exitTranslator.entrySet().stream()
+    	.filter(r -> r.getValue().equalsIgnoreCase("null"))
+    	.map(r -> r.getKey())
+    	.collect(Collectors.toList());
     }
 
     /**
@@ -71,19 +83,18 @@ public class Room
      * @param south The south exit.
      * @param west The west exit.
      */
-    @SuppressWarnings("CallToPrintStackTrace")
-    public void setExits(Room north, Room east, Room south, Room west) 
-    {
-        try {
-	    setExit(Game.messages.getString("north"), north);
-	    setExit(Game.messages.getString("east"), east);
-	    setExit(Game.messages.getString("south"), south);
-	    setExit(Game.messages.getString("west"), west);
-	} catch (BadExitException e) {
-	    e.printStackTrace();
-	    System.exit(1);
-	}
-    }
+//    public void setExits(Room north, Room east, Room south, Room west) 
+//    {
+//        try {
+//	    setExit(Game.messages.getString("north"), north);
+//	    setExit(Game.messages.getString("east"), east);
+//	    setExit(Game.messages.getString("south"), south);
+//	    setExit(Game.messages.getString("west"), west);
+//	} catch (BadExitException e) {
+//	    e.printStackTrace();
+//	    System.exit(1);
+//	}
+//    }
 
     /**
      * Add an exit. Check that neither the direction nor the room is null
@@ -91,14 +102,14 @@ public class Room
      * @param room the adjoining room
      * @throws zuul.BadExitException if the direction is null
      */
-    public void setExit(String direction, Room room) throws BadExitException {
-    	if (room == null)
-    	    return;
-        if (direction == null)
-            throw new BadExitException(direction, room);
-        exits.put(direction, room);
-    }
-    
+//    public void setExit(String direction, Room room) throws BadExitException {
+//    	if (room == null)
+//    	    return;
+//        if (direction == null)
+//            throw new BadExitException(direction, room);
+//        exits.put(direction, room);
+//    }
+//    
     /**
      * Get the room from an exit direction
      * @param direction the direction
@@ -214,8 +225,12 @@ public class Room
      */
     public void addCharacter(Character character) { characters.put(character.getName(),character); }
     
-    /** @return A set of all the exits from this room */
-    public Set<String> getAllExits() { return exits.keySet(); }
+//    public Room getRoomExit(String dir) {
+//    	return exits.get(Game.messages.getString(dir));
+//    }
+    
+//    /** @return A set of all the Room object exits from this room */
+//    public Set<String> getAllExits() { return exits.keySet(); }
 
     /**
      * Remove a character from this room
@@ -228,7 +243,9 @@ public class Room
      * @param whom the name of the character
      * @return true iff this character is in the room
      */
-    public boolean hasCharacter(String whom) { return characters.containsKey(whom); }   
+    public boolean hasCharacter(String whom) { return characters.containsKey(whom); }  
+    
+    public boolean hasItems() { return items.size() == 0; }
     
     public void process() {
         // TODO This could cause a character or item to be processed more than once if

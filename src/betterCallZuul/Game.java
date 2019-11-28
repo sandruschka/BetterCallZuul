@@ -129,7 +129,7 @@ public abstract class Game {
      * The game needs to know all the rooms so that it can iterate through them
      * @param all The list of rooms
      */
-    protected void setAllRooms(Map<String, Room> all) {
+    public void setAllRooms(Map<String, Room> all) {
         allRooms = all;
     }
     
