@@ -28,7 +28,6 @@ public class DROPcommand extends Command {
             return false;
         }
         String desc = getSecondWord();
-        player.drop(desc);
-        return false;
+        return player.drop(desc);
     }
 }

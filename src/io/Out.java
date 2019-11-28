@@ -1,16 +1,7 @@
 package io;
 
-import java.util.List;
-import java.util.Observable;
-
-import betterCallZuul.Controller;
-import javafx.beans.InvalidationListener;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableStringValue;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.text.TextAlignment;
+import betterCallZuul.AlertStatus;
+import betterCallZuul.GameController;
 
 /**
  * A really simple class to handle output
@@ -24,6 +15,10 @@ public class Out{
     }
 	
    	public void println(String str) {
-   		Controller.getInstance().roomDescription.setText(str);
+   		GameController.getInstance().roomDescription.setText(str);
 	}
+   	
+   	public void printAlert(AlertStatus status, String header, String str) {
+   		GameController.getInstance().alert(status, header, str);
+   	}
 }

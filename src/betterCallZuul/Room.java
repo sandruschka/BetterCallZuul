@@ -108,6 +108,11 @@ public class Room
     	return exitTranslator.get(direction); 
 	}
     
+    public boolean hasExit() {
+    	return exitTranslator.entrySet().stream()
+    			.anyMatch(p -> !p.getValue().equalsIgnoreCase("null"));
+    }
+    
     /**
      * @return The description of the room.
      */
@@ -163,12 +168,12 @@ public class Room
      * @param description the item
      * @return the item's weight or 0 if none
      */
-    public boolean containsItem(String description) { return items.containsKey(description); }
+    public boolean containsItem(String description) {return items.containsKey(description); }
     
     
     public List<String> getItemsString() {
     	return items.keySet().stream()
-            	.map((desc) -> desc + '(' + items.get(desc).getWeight() + ") ")
+            	.map((desc) -> desc)
             	.collect(Collectors.toList());
     }
     /*
@@ -191,7 +196,7 @@ public class Room
         }
     }
 
-    public List<String> getCharacter() {
+    public List<String> getCharacters() {
     	return characters.keySet().stream()
             	.map((desc) -> desc)
             	.collect(Collectors.toList());

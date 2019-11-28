@@ -45,7 +45,7 @@ public class Inventory {
 		
 		public List<String> getItemsString() {
 			return items.keySet().stream()
-	            	.map((desc) -> desc + '(' + items.get(desc).getWeight() + ") ")
+	            	.map((desc) -> desc)
 	            	.collect(Collectors.toList());
 		}
 }

@@ -1,5 +1,6 @@
 package betterCallZuul;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -51,7 +52,7 @@ public abstract class Game {
     private final Parser parser;
 
     public static Player player;
-    static Map<String, Room> allRooms;
+    protected static Map<String, Room> allRooms;
 
     protected CSVparser csvParser;
     /**
@@ -69,14 +70,16 @@ public abstract class Game {
         Game.commands = commands;
         parser = new Parser("mygame");
         csvParser = new CSVparser();
-        createRooms();
+        allRooms = new HashMap<>();
     }
 
     /**
      * Main play routine. Loops until end of play.
      */
     public void play() {
-        printWelcome();
+    	
+    	//TODO this should be called after menu
+        //printWelcome();
 
         //Game.out.gameOutput(messages.getString("goodbye")); //Thank you for playing.  Good bye.
     }
@@ -90,9 +93,9 @@ public abstract class Game {
       
     }
     
-    public void processControllerCommand(String command) {
+    public boolean processControllerCommand(String command) {
     	Command cmd = parser.getCommandFromGUI(command);
-    	cmd.execute(player);
+    	return cmd.execute(player);
     }
 
     /**
@@ -117,7 +120,7 @@ public abstract class Game {
      * Get the player
      * @return the player
      */
-    protected Player getPlayer() {
+    public Player getPlayer() {
         return player;
     }
 
@@ -130,6 +133,10 @@ public abstract class Game {
         allRooms = all;
     }
     
+    public Map<String, Room> getAllRooms() {
+    	return allRooms;
+    }
+    
     protected Room getRoomByName(String room) {
     	return allRooms.get(room);
     }
@@ -138,7 +145,7 @@ public abstract class Game {
     /**
      * Create all the rooms and link their exits together.
      */
-    protected abstract void createRooms();
+    public abstract void createRooms(String filePath);
 
     /*
      * All the welcome messages

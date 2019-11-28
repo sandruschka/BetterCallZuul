@@ -4,6 +4,7 @@
  */
 package mygame;
 
+import betterCallZuul.AlertStatus;
 import betterCallZuul.Game;
 import betterCallZuul.Player;
 import command.Command;
@@ -22,20 +23,31 @@ public class HELPcommand extends Command {
     
     @Override
     public boolean execute(Player player) {
-    	for (String str : getInstructions()) 
-    	    Game.out.println(str);
-        return false;
+    	System.out.println("in help");
+    	  Game.out.printAlert(AlertStatus.DEFAULT, "World of Zuul", getInstructions());
+    	  return true;
+        
     }
     
-    private String[] getInstructions() {
-        String[] rv = new String[4];
-        rv[0] = Game.messages.getString("lost"); // You are lost. You are alone. You wander around at the university.
-        rv[1] = "";
-        rv[2] = Game.messages.getString("commands"); // Your command words are:
-        String tmp = "   ";
-        for (String cmd : Game.commands.getValidCommands())
-            tmp += cmd + ' ';
-        rv[3] = tmp;
-        return rv;
+    private String getInstructions() {
+    	
+    	String validCommands = "";
+    	 for (String cmd : Game.commands.getValidCommands())
+    		 validCommands += cmd + ' ';
+    	  
+    	return Game.messages.getString("lost") + "\n" + 
+    			Game.messages.getString("commands") + "\n   " +
+    			validCommands;
+    			
+    	
+//        String[] rv = new String[4];
+//        rv[0] = Game.messages.getString("lost"); // You are lost. You are alone. You wander around at the university.
+//        rv[1] = "";
+//        rv[2] = Game.messages.getString("commands"); // Your command words are:
+//        String tmp = "   ";
+//        for (String cmd : Game.commands.getValidCommands())
+//            tmp += cmd + ' ';
+//        rv[3] = tmp;
+//        return rv;
     }
 }

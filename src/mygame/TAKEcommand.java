@@ -25,7 +25,6 @@ public class TAKEcommand extends Command {
             return false;
         }
         String desc = getSecondWord();
-        player.take(desc);
-        return false;
+        return player.take(desc);
     }
 }

@@ -65,37 +65,39 @@ public class Player {
      * Take an item from a room. Check whether it is in the room and it is not too heavy
      * @param desc the name of the item
      */
-    public void take(String desc) {
+    public boolean take(String desc) {
         if (!getCurrentRoom().containsItem(desc)) {
             // The item is not in the room
             Game.out.println(desc + " " + Game.messages.getString("room")); // is not in the room"
-            return;
+            return false;
         }
         Item item = getCurrentRoom().getItem(desc);
         if (inventory.tooHeavyToPickUp(item.getWeight(), MAX_WEIGHT)) {
             // The player is carrying too much
             Game.out.println(desc + " " + Game.messages.getString("heavy")); // is too heavy
-            return;
+            return false;
         }
 
         item = getCurrentRoom().removeItem(desc);
         inventory.addItem(desc, item);
         inventory.addWeight(item.getWeight());
+        return true;
     }
 
     /**
      * Put an item the player has into the current room
      * @param desc the name of the item - check if the player is carrying it
      */
-    public void drop(String desc) {
+    public boolean drop(String desc) {
         if (!inventory.hasItem(desc)) {
             Game.out.println(Game.messages.getString("dontHave") + " " + desc); // You don't have the...
-            return;
+            return false;
         }
         
         Item item = inventory.removeItem(desc);
         inventory.removeWeight(item.getWeight());
         currentRoom.addItem(desc, item);
+        return true;
     }
 
     /**
@@ -121,7 +123,7 @@ public class Player {
      * Look around the current room, giving the user some info
      */
     public void look() {
-    	Game.out.println(getCurrentRoom().getDetails());
+    	Game.out.println(getCurrentRoom().getDescription());
     }
 
     /**
@@ -136,7 +138,7 @@ public class Player {
             Game.out.println(Game.messages.getString("door")); // There is no door!
         } else {
             setCurrentRoom(nextRoomName);
-            Controller.getInstance().updateView();
+            GameController.getInstance().updateView();
             look();
         }
     }

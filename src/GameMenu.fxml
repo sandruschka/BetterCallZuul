@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="680.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
+         <children>
+            <Button fx:id="defaultGame" layoutX="241.0" layoutY="224.0" mnemonicParsing="false" onAction="#loadDefaultGame" prefHeight="26.0" prefWidth="158.0" text="Default Game" />
+            <Button fx:id="loadCSV" layoutX="241.0" layoutY="187.0" mnemonicParsing="false" onAction="#loadGameCSV" text="Load Game from CSV" />
+         </children>
+    </AnchorPane>
+  </children>
+</VBox>

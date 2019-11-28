@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import betterCallZuul.Character;
-import betterCallZuul.Controller;
 import betterCallZuul.Game;
+import betterCallZuul.GameController;
 import betterCallZuul.Player;
 import betterCallZuul.Room;
 import betterCallZuul.RoomGenerator;
@@ -20,11 +20,8 @@ public class MyGame extends Game {
 	private RoomGenerator roomGenerator;
 	private static MyGame myGame;
 	
-    private MyGame() {
-    	
+    private MyGame() {    	
     	super("en", "US", new CommandWords());
-    	setup();
-    	
     }
     
     public static MyGame getInstance() {
@@ -32,31 +29,17 @@ public class MyGame extends Game {
     		myGame = new MyGame();
     	return myGame;
     }
-    
-    
-    private void setup() {
-//    	Controller controller = Controller.getInstance();
-//    	
-//    	
-//    	controller.roomDescription.setText(String.valueOf(out.getGameOutput()));
-//    	controller.roomDescription.textProperty().bind(out.getGameOutput());
-    	
-    	
-    	//listview = ObservableList<String> observableList = FXCollections.observableList(list);
-    	
-    	
-    }
 	
     /** Create all the rooms and link their exits together.  */
     @Override
-    protected void createRooms() {
+    public void createRooms(String filePath) {
         
         //Room outside, theatre, pub, lab, office;
-        Map<String, Room> allRooms = new HashMap<>();
+        
     
         try {
         	roomGenerator = new RoomGenerator();
-			allRooms = roomGenerator.generate(csvParser.parseCSV("src/betterCallZuul/game1.csv"));
+			allRooms = roomGenerator.generate(csvParser.parseCSV(filePath));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -97,6 +80,6 @@ public class MyGame extends Game {
     
     @Override
     protected String getWelcomeString() {
-    	return "\n" + messages.getString("welcome") + messages.getString("zuul") + messages.getString("getHelp") + "\n" +  getPlayer();
+    	return "\n" + messages.getString("welcome") + "\n" + messages.getString("zuul") + "\n" + messages.getString("getHelp") + "\n";
     }
 }
