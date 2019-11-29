@@ -8,8 +8,8 @@ package betterCallZuul;
  * @author rej
  */
 public class Item {
-    private final String description;
-    private final int weight;
+    private String description;
+    private int weight;
     
     /**
      * Constructor for an Item
@@ -21,6 +21,13 @@ public class Item {
         weight = w;
     }
 
+    public void setWeight(Integer weight) {
+    	this.weight = weight;
+    }
+    
+    public void setDesc(String desc) {
+    	this.description = desc;
+    }
     /**
      * Get a description of an item
      * @return the description

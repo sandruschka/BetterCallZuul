@@ -28,25 +28,34 @@ public class RemoveRoomsWithNoItems {
 		
 		
 		
-		for (Room noItemRoom : noItemsRooms.values()) {
+		
+		for (Room noItemRoom : noItemsRooms.values()) { //Iterate through all rooms without an item
 			
-			//get all 
-			for (String exit: noItemRoom.getAllExits()) {
-				removeExitsfromLinkedRooms(exit);
+			
+			for (String exit: noItemRoom.getAllExits()) { //Iterate through the room's exit
+				System.out.println(exit);
+				String roomName = noItemRoom.getExit(exit);
+				System.out.println(roomName);
+				if (roomName.equalsIgnoreCase("null")) { //exits that are null are ignored
+					continue;
+				}
+				Room connectedRoom = rooms.get(roomName); //Get the room object referenced to the exit
+				System.out.println(roomName + " " + convertionMap.get(exit));
+				connectedRoom.removeExit(convertionMap.get(exit)); // The exit has to be removed from the opposite direction of the adjecent room
 			}
 		}
 		
-		System.out.println(noItemsRooms);
+		rooms.keySet().removeIf(r -> noItemsRooms.get(r) != null);
+		
+		MyGame.getInstance().setAllRooms(rooms);
+		
+		System.out.println(MyGame.getInstance().getAllRooms());
 		//Iterate trough the rooms
 		//if the room doesn't have an item
 		//then remove the room and all the connections to it
 		
 		
 		
-	}
-	
-	private void removeExitsfromLinkedRooms(String exit) {
-		noItemRoom.getExit(exit);
 	}
 
 }

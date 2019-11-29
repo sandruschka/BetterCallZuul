@@ -11,6 +11,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import com.sun.tools.javac.code.Attribute.Array;
 
 /**
  *
@@ -24,25 +28,29 @@ public class CSVparser {
     public CSVparser() {
     	csvData = new ArrayList<List<String>>();
     }
+    
+    private Function<String, ArrayList<String>> stringToArrayList = (row) -> {
 
+    	  String[] elements = row.split(delimiter);
+
+    	  return new ArrayList<String>(Arrays.asList(elements));
+
+	};
+
+	/**
+	 * 
+	 * @param CSVpath the path to the csv file
+	 * @return a list of lists ex: [[outside, outside the university, null, theatre, lab, pub, notebook, 2, umbrella, 3]]
+	 * @throws IOException
+	 */
     public List<List<String>> parseCSV(String CSVpath) throws IOException {
     	
-    	
     	BufferedReader csvReader = new BufferedReader(new FileReader(CSVpath));
-    	String row;
     	
+    	csvData = csvReader.lines().map(stringToArrayList).collect(Collectors.toList());
     	
-    	//read row by row in the buffered csv file
-    	while ((row = csvReader.readLine()) != null) {
-    	   String[] nextLine = row.split(delimiter); // Split the row into an array of words separated by the delimiter
-    	    
-    	   csvData.add(new ArrayList<String>(Arrays.asList(nextLine))); // Load the String array into an arrayList and store it into the csvData container
-            
-    	   System.out.println(csvData);
-    	    
-    	}
     	csvReader.close();
-       
+    	
         return csvData;
     }
     

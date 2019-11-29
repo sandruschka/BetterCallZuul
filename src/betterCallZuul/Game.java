@@ -52,7 +52,7 @@ public abstract class Game {
     private final Parser parser;
 
     public static Player player;
-    protected static Map<String, Room> allRooms;
+    public static Map<String, Room> allRooms;
 
     protected CSVparser csvParser;
     /**

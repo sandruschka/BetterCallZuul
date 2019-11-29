@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import EditGame.AddItemsInRooms;
-import EditGame.RemoveRooms;
 import EditGame.RemoveRoomsWithNoExit;
 import EditGame.RemoveRoomsWithNoItems;
 import Utils.RegexUtils;
@@ -19,7 +18,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -73,6 +71,8 @@ public class GameController {
 	public ListView<String> inventoryListView;
 	@FXML
 	public ContextMenu itemsMenu;
+	@FXML
+	public MenuItem addItem;
 	
 	private Map<String, Button> dirButtons;
 	
@@ -117,20 +117,19 @@ public class GameController {
 			
 	}
 	
-	private ListCell<String> cellFactory(MenuItem item) {
+	private ListCell<String> cellFactory(MenuItem item, MenuItem edit) {
 		
 			ListCell<String> cell = new ListCell<>();
 
             ContextMenu menu = new ContextMenu();
-            
            
-//            MenuItem deleteItem = new MenuItem();
-//            deleteItem.textProperty().bind(Bindings.format("Delete \"%s\"", cell.itemProperty()));
-//            deleteItem.setOnAction(event -> inventoryListView.getItems().remove(cell.getItem()));
+            
+            menu.getItems().addAll(item, edit);
 
-            menu.getItems().addAll(item);
-
+            System.out.println("Item prop " + cell.itemProperty());
             cell.textProperty().bind(cell.itemProperty());
+            
+            
 
             // TODO show weight
 //            cell.hoverProperty().addListener((obs, wasHovered, isNowHovered) -> {
@@ -140,7 +139,8 @@ public class GameController {
 //                    hidePopup();
 //                }
 //            });
-
+            
+            
             cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
                 if (isNowEmpty) {
                     cell.setContextMenu(null);
@@ -159,14 +159,24 @@ public class GameController {
 		return controllerInstance;
 	}
 	
+	
+//	private void addItem(String item, String weight) {
+//		 new AddItemsInRooms(itemName.getText(), Integer.valueOf(itemWeight.getText());
+//	}
+	
 	@FXML
 	public void addItemToAllRooms() {
 		
+		itemDialog("Add an item to to every room with an exit", "create");
+
+	}
+	
+	private void itemDialog(String title, String type) {
 		/**
 		 * Dialog where the player can add an item to all the rooms with an exit
 		 */
 		Dialog<Item> dialog = new Dialog<>();
-		dialog.setTitle("Add an item to to every room with an exit");
+		dialog.setTitle(title);
 		dialog.setResizable(true);
 		
 		TextField itemName = new TextField();
@@ -191,11 +201,18 @@ public class GameController {
 		    	
 		        if (b == buttonTypeOk) {// && isOnlyLetters(itemName.getText()) && itemWeight.getText().matches("\\d{0,7}([\\.]\\d{0,4})?")) {
 		        	if (validAddItemInput(itemName.getText(), itemWeight.getText())) {
-			        	new AddItemsInRooms(itemName.getText(), Integer.valueOf(itemWeight.getText())); //convert the weight string to an Integer
+		        		
+		        		if (type.equalsIgnoreCase("create")) {
+		        			new AddItemsInRooms(itemName.getText(), Integer.valueOf(itemWeight.getText())); //convert the weight string to an Integer
+		        		} else {
+		        			MyGame.getInstance().getPlayer().getCurrentRoom().editItem(type, itemName.getText(), Integer.valueOf(itemWeight.getText()));
+		        		}
+		        			
 			        	updateView();
 		        	} else {
 		        		alert(AlertStatus.ERROR, "Add Item", "The item name has to be alphabetic and the weight numeric");
-		        		addItemToAllRooms();
+		        		dialog.close();
+		        		itemDialog(title, type);
 		        	}
 		        }
 		 
@@ -204,6 +221,7 @@ public class GameController {
 		});
 		         
 		dialog.showAndWait();
+		
 	}
 	
 	private boolean validAddItemInput(String name, String weight) {
@@ -268,11 +286,13 @@ public class GameController {
 	@FXML
 	public void removeRoomsWithNoItems() {
 		new RemoveRoomsWithNoItems().execute();
+		updateView();
 	}
 
 	@FXML
 	public void removeRoomsWithNoExit() {
 		new RemoveRoomsWithNoExit().execute();
+		updateView();
 	}
 	
 	public void updateView() {
@@ -290,18 +310,32 @@ public class GameController {
 		inventoryListView.setItems(observableInventoryList);
 		characterListView.setItems(observableCharactersList);
 		
-		itemListView.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+		
+		//register a context menu for the itemListView and the inventoryListView
+		
+		//addItem.textProperty().bind(Bindings.);
+		
+		itemListView.setCellFactory(new Callback<ListView<String>, ListCell<String>>() { 
 			
 			@Override
 			public ListCell<String> call(ListView<String> arg0) {
 				MenuItem takeItem = new MenuItem();
+				MenuItem edit = new MenuItem();
 	            
 	           
-				ListCell<String> lc = cellFactory(takeItem);
+				ListCell<String> lc = cellFactory(takeItem, edit);
 				takeItem.setOnAction(event -> {
 		                take(lc.getItem());
 		            });
 				takeItem.textProperty().bind(Bindings.format("Take the %s", lc.itemProperty()));
+	            edit.textProperty().bind(Bindings.format("Edit the %s", lc.itemProperty()));
+	            
+	            edit.setOnAction(event -> {
+	            	String item = lc.getItem();
+	            	itemDialog("Edit your item", item);
+	            	
+	            	
+	            });
 				return lc;
 			}
 		});
@@ -311,8 +345,9 @@ public class GameController {
 			@Override
 			public ListCell<String> call(ListView<String> arg0) {
 				MenuItem dropItem = new MenuItem();
+				MenuItem edit = new MenuItem();
 	            
-				ListCell<String> lc = cellFactory(dropItem);
+				ListCell<String> lc = cellFactory(dropItem, edit);
 				dropItem.setOnAction(event -> {
 		                drop(lc.getItem());
 		            });
@@ -323,6 +358,11 @@ public class GameController {
 		
 		//inventoryListView
 		
+	}
+	
+	@FXML
+	public void quitGame() {
+		executeCommand("quit");
 	}
 	
 	private void directionButtonsAvailability() {

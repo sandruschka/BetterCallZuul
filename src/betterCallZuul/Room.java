@@ -52,6 +52,11 @@ public class Room
         exitTranslator = new HashMap<>();
     }
     
+    public void removeExit(String dir) {
+    	System.out.println("in remove exit !" + dir );
+    	exitTranslator.replace(dir, "null");
+    }
+    
     public void setExitTranslator(List<String> exits) {
     	
     	System.out.println("EXITS: " + exits);
@@ -183,9 +188,24 @@ public class Room
     
     
     public List<String> getItemsString() {
-    	return items.keySet().stream()
-            	.map((desc) -> desc)
+    	return items.values().stream()
+            	.map((desc) -> desc.getDescription() + " (" + desc.getWeight() + ")") 
             	.collect(Collectors.toList());
+    }
+    
+    public void editItem(String oldValue, String newValue, Integer weight) {
+    	
+    	
+    	String itemName = oldValue.substring(0, oldValue.indexOf(" "));//.split(" ");
+    	
+    	System.out.println(itemName + " " + newValue + " " + weight);
+    	Item item = items.get(itemName);
+    	items.remove(itemName);
+    	items.put(newValue, item);
+    	item.setWeight(weight);
+    	item.setDesc(newValue);
+    	
+    	
     }
     /*
      * Get an item from the room if it is there

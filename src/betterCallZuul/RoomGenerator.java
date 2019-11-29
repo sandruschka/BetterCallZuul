@@ -13,7 +13,7 @@ import java.util.Map;
 import resources.RoomData;
 
 /**
- *
+ * Generating the Room objects by using the information parsed in a CSV file
  * @author sandra
  */
 public class RoomGenerator {
@@ -22,11 +22,9 @@ public class RoomGenerator {
     
     /**
      * 
-     * @param data the data containing the csv input
+     * @param the csv data parsed in the CSVParser class
+     * @return Map with {"roomName", Room}
      */
-    public RoomGenerator() {
-    }
-    
     public Map<String, Room> generate(List<List<String>> data) {
     	
     	 System.out.println("Data in room generator : " + data);
@@ -38,14 +36,10 @@ public class RoomGenerator {
         Map<String, Room> allRooms = new HashMap<>();
         
         for (RoomData d : roomData) {
-        	
-			Room room = new Room(d.getDescription());
-            
+			Room room = new Room(d.getDescription()); 
             room.addItem(d.getItems());
-            
             room.setExitTranslator(d.getExits());
             allRooms.put(d.getId(), room);
-            
         }
         return allRooms;
     }
