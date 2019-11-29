@@ -5,6 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * 
+ * @author sandra
+ * The inventory available for the player
+ */
 public class Inventory {
 		private Map<String, Item> items;
 		private int totalWeight;
@@ -33,8 +38,12 @@ public class Inventory {
 		
 		public boolean hasItem(String desc) { return items.containsKey(desc); }
 		
-		
-		
+		/**
+		 * checks of the item to be picked up isn't heavy enough
+		 * @param itemWeight
+		 * @param maxWeight
+		 * @return
+		 */
 		public boolean tooHeavyToPickUp(int itemWeight, int maxWeight) {
 			return itemWeight + totalWeight > maxWeight;
 		}

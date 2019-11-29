@@ -14,10 +14,8 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.sun.tools.javac.code.Attribute.Array;
-
 /**
- *
+ * Parse a csv
  * @author sandra
  */
 public class CSVparser {

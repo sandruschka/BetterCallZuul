@@ -19,9 +19,7 @@ public class TAKEcommand extends Command {
     
     @Override
     public boolean execute(Player player) {
-        if (!hasSecondWord()) {
-            // if there is no second word, we don't know what to take...
-            Game.out.println(Game.messages.getString("takeWhat"));
+        if (!hasSecondWord()) { // if there is no second word, we don't know what to take...
             return false;
         }
         String desc = getSecondWord();

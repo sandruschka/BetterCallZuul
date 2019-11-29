@@ -7,7 +7,7 @@ import command.Command;
 
 /**
  * Command to go somewhere
- * @author rej
+ * @author Sandra
  */
 public class GOcommand extends Command {
     
@@ -19,9 +19,7 @@ public class GOcommand extends Command {
     
     @Override
     public boolean execute(Player player) {
-        if (!hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
-            Game.out.println(Game.messages.getString("goWhere"));
+        if (!hasSecondWord()) { // if there is no second word, we don't know where to go...
             return false;
         }
 

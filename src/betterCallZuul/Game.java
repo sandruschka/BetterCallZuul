@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import Npc.NpcHandler;
 import command.Command;
 //import command.CommandWords;
 import mygame.CommandWords;
@@ -26,8 +27,7 @@ import io.Out;
  * creates the parser and starts the game. It also evaluates and executes the
  * commands that the parser returns.
  *
- * @author Michael Kolling and David J. Barnes
- * @version 2006.03.30
+ * @author Sandra
  */
 public abstract class Game {
 
@@ -49,12 +49,23 @@ public abstract class Game {
      * The commands known to the game
      */
     public static CommandWords commands;
+    
     private final Parser parser;
 
+    /*
+     * The player
+     */
     public static Player player;
+    
+    protected RoomGenerator roomGenerator;
+    
+    /*
+     * All the created rooms
+     */
     public static Map<String, Room> allRooms;
 
     protected CSVparser csvParser;
+    
     /**
      * Create the game and initialise its internal map.
      *
@@ -74,38 +85,14 @@ public abstract class Game {
     }
 
     /**
-     * Main play routine. Loops until end of play.
-     */
-    public void play() {
-    	
-    	//TODO this should be called after menu
-        //printWelcome();
-
-        //Game.out.gameOutput(messages.getString("goodbye")); //Thank you for playing.  Good bye.
-    }
-
-    /**
-     * Print out the opening message for the player.
-     */
-    private void printWelcome() {
-      
-        Game.out.println(getWelcomeString());
-      
-    }
-    
-    public boolean processControllerCommand(String command) {
-    	Command cmd = parser.getCommandFromGUI(command);
-    	return cmd.execute(player);
-    }
-
-    /**
      * Given a command, process (that is: execute) the command.
      *
      * @param command The command to be processed.
      * @return true If the command ends the game, false otherwise.
      */
-    private boolean processCommand(Command command) {
-        return command.execute(player);
+    public boolean processControllerCommand(String command) {
+    	Command cmd = parser.getCommandFromGUI(command);
+    	return cmd.execute(player);
     }
 
     /**
@@ -133,6 +120,10 @@ public abstract class Game {
         allRooms = all;
     }
     
+    /**
+     * 
+     * @return Map<"Room name", Room object>
+     */
     public Map<String, Room> getAllRooms() {
     	return allRooms;
     }

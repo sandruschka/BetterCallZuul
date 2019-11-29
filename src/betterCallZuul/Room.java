@@ -10,18 +10,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Class Room - a room in an adventure game.
- *
- * This class is part of the "World of Zuul" application. 
- * "World of Zuul" is a very simple, text based adventure game.  
- *
  * A "Room" represents one location in the scenery of the game.  It is 
  * connected to other rooms via exits.  The exits are labelled north, 
  * east, south, west.  For each direction, the room stores a reference
- * to the neighboring room, or null if there is no exit in that direction.
+ * to the neighbouring room, or null if there is no exit in that direction.
  * 
- * @author  Michael Kolling and David J. Barnes
- * @version 2006.03.30
+ * @author sandra
+ *
  */
 public class Room 
 {
@@ -52,17 +47,19 @@ public class Room
         exitTranslator = new HashMap<>();
     }
     
-    public void removeExit(String dir) {
-    	System.out.println("in remove exit !" + dir );
-    	exitTranslator.replace(dir, "null");
-    }
+    /**
+     * 
+     * @param dir the direction in which the exit should be deleted ex. "north", "west"
+     */
+    public void removeExit(String dir) { exitTranslator.replace(dir, "null"); }
     
+    /**
+     * 
+     * @param exits -> list of exits sent from the RoomGenerator
+     */
     public void setExitTranslator(List<String> exits) {
     	
-    	System.out.println("EXITS: " + exits);
-    	
-    	
-        exitTranslator = Stream.of(new String[][] {
+    	exitTranslator = Stream.of(new String[][] {
             { "north", exits.get(0)}, 
             { "east", exits.get(1) },
             { "south", exits.get(2) },
@@ -70,51 +67,17 @@ public class Room
         }).collect(Collectors.toMap(data -> data[0], data -> data[1]));
     }
     
+    /**
+     * 
+     * @return -> all the available exits as a List of String
+     */
     public List<String> getAllExits() {
-    	
-    	List<String> res = new ArrayList<String>();
-    	
     	return exitTranslator.entrySet().stream()
     	.filter(r -> r.getValue().equalsIgnoreCase("null"))
     	.map(r -> r.getKey())
     	.collect(Collectors.toList());
     }
 
-    /**
-     * Define 4 exits of this room.  Every direction either leads
-     * to another room or is null (no exit there).
-     * @param north The north exit.
-     * @param east The east east.
-     * @param south The south exit.
-     * @param west The west exit.
-     */
-//    public void setExits(Room north, Room east, Room south, Room west) 
-//    {
-//        try {
-//	    setExit(Game.messages.getString("north"), north);
-//	    setExit(Game.messages.getString("east"), east);
-//	    setExit(Game.messages.getString("south"), south);
-//	    setExit(Game.messages.getString("west"), west);
-//	} catch (BadExitException e) {
-//	    e.printStackTrace();
-//	    System.exit(1);
-//	}
-//    }
-
-    /**
-     * Add an exit. Check that neither the direction nor the room is null
-     * @param direction Direction to go
-     * @param room the adjoining room
-     * @throws zuul.BadExitException if the direction is null
-     */
-//    public void setExit(String direction, Room room) throws BadExitException {
-//    	if (room == null)
-//    	    return;
-//        if (direction == null)
-//            throw new BadExitException(direction, room);
-//        exits.put(direction, room);
-//    }
-//    
     /**
      * Get the room from an exit direction
      * @param direction the direction
@@ -137,8 +100,6 @@ public class Room
     public String getDetails() {
     	
     	String itemsString = "", exitString = "", characterString = "";
-    	
-    	System.out.println("item: " + items + "   exits: " + exitTranslator + "    characters: " + characters);
     	
     	itemsString = items.keySet().stream()
             	.map((desc) -> desc + '(' + items.get(desc).getWeight() + ") ")
@@ -177,7 +138,7 @@ public class Room
         addItem(description, new Item(description, weight));               
     }
     
-    void addItem(String desc, Item item) { items.put(desc, item); }
+    private void addItem(String desc, Item item) { items.put(desc, item); }
     
     /**
      * Does the room contain an item
@@ -187,14 +148,23 @@ public class Room
     public boolean containsItem(String description) {return items.containsKey(description); }
     
     
+    /**
+     * 
+     * @return -> the item's name + the weight
+     */
     public List<String> getItemsString() {
     	return items.values().stream()
             	.map((desc) -> desc.getDescription() + " (" + desc.getWeight() + ")") 
             	.collect(Collectors.toList());
     }
     
+    /**
+     * 
+     * @param oldValue -> the old name of the item
+     * @param newValue -> the new name
+     * @param weight
+     */
     public void editItem(String oldValue, String newValue, Integer weight) {
-    	
     	
     	String itemName = oldValue.substring(0, oldValue.indexOf(" "));//.split(" ");
     	
@@ -207,8 +177,10 @@ public class Room
     	
     	
     }
-    /*
+    /**
      * Get an item from the room if it is there
+     * @param description -> the item name
+     * @return
      */
     public Item getItem(String description) { return items.get(description); }
     
@@ -227,11 +199,16 @@ public class Room
         }
     }
 
+    /**
+     * 
+     * @return -> the name of all the characters
+     */
     public List<String> getCharacters() {
     	return characters.keySet().stream()
             	.map((desc) -> desc)
             	.collect(Collectors.toList());
     }
+    
     /**
      * Get a character in the room
      * @param name the name of the Character
@@ -245,13 +222,6 @@ public class Room
      */
     public void addCharacter(Character character) { characters.put(character.getName(),character); }
     
-//    public Room getRoomExit(String dir) {
-//    	return exits.get(Game.messages.getString(dir));
-//    }
-    
-//    /** @return A set of all the Room object exits from this room */
-//    public Set<String> getAllExits() { return exits.keySet(); }
-
     /**
      * Remove a character from this room
      * @param name the name of the character to remove
@@ -267,9 +237,7 @@ public class Room
     
     public boolean hasItems() { return items.size() == 0; }
     
-    public void process() {
-        // TODO This could cause a character or item to be processed more than once if
-        // one processing action causes it to move rooms. easy to fix but not done yet.
+    public void process() { 
         for (Character ch: characters.values()) {
             ch.execute();
         }

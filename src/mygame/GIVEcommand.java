@@ -19,15 +19,8 @@ public class GIVEcommand extends Command {
     
     @Override
     public boolean execute(Player player) {
-        if (!hasSecondWord()) {
-            // if there is no second word, we don't know what to give...
-            Game.out.println(Game.messages.getString("giveWhat"));
-            return false;
-        }
-        if (!hasThirdWord()) {
-            // if there is no third word, we don't to whom to give it...
-            Game.out.println(Game.messages.getString("giveWho"));
-            return false;
+        if (!hasSecondWord() || !hasThirdWord()) {
+        	return false;
         }
         String desc = getSecondWord();
         String whom = getThirdWord();

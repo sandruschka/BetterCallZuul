@@ -23,7 +23,6 @@ public class HELPcommand extends Command {
     
     @Override
     public boolean execute(Player player) {
-    	System.out.println("in help");
     	  Game.out.printAlert(AlertStatus.DEFAULT, "World of Zuul", getInstructions());
     	  return true;
         
@@ -38,16 +37,5 @@ public class HELPcommand extends Command {
     	return Game.messages.getString("lost") + "\n" + 
     			Game.messages.getString("commands") + "\n   " +
     			validCommands;
-    			
-    	
-//        String[] rv = new String[4];
-//        rv[0] = Game.messages.getString("lost"); // You are lost. You are alone. You wander around at the university.
-//        rv[1] = "";
-//        rv[2] = Game.messages.getString("commands"); // Your command words are:
-//        String tmp = "   ";
-//        for (String cmd : Game.commands.getValidCommands())
-//            tmp += cmd + ' ';
-//        rv[3] = tmp;
-//        return rv;
     }
 }

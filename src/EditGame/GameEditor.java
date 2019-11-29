@@ -4,6 +4,6 @@ import betterCallZuul.Game;
 import mygame.CommandWords;
 import mygame.MyGame;
 
-public abstract class GameEditor {
-		
+public interface GameEditor {
+	void execute();
 }

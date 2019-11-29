@@ -5,7 +5,7 @@ package betterCallZuul;
 
 /**
  * A simple class for items
- * @author rej
+ * @author sandra
  */
 public class Item {
     private String description;

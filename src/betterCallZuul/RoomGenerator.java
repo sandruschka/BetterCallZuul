@@ -27,7 +27,6 @@ public class RoomGenerator {
      */
     public Map<String, Room> generate(List<List<String>> data) {
     	
-    	 System.out.println("Data in room generator : " + data);
          roomData = new ArrayList<>();
          for (List<String> d : data) {
              roomData.add(new RoomData(d));

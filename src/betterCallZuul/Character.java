@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  * A simple class for Characters
- * @author rej
+ * @author Sandra
  */
 public abstract class Character {
     private final String name;
@@ -50,6 +50,7 @@ public abstract class Character {
         nextRoom.addCharacter(this);
         //Game.out.println(name + " moves from " + currentRoom.getDescription() + " to " + nextRoom.getDescription());
         currentRoom = nextRoom;
+        
     }
     
     

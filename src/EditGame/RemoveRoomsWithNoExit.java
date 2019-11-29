@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import betterCallZuul.Room;
 import mygame.MyGame;
 
-public class RemoveRoomsWithNoExit {
+public class RemoveRoomsWithNoExit implements GameEditor {
 	
 	/**
 	 *  Removes the rooms with no exits

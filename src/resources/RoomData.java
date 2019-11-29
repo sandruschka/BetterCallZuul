@@ -52,9 +52,7 @@ public class RoomData implements GameData {
     	} catch(NullPointerException e) {
     		System.err.println("There is a field with null");
     	}
-    	
-    	
-        
+    	  
     	/**
     	 * go trough all the items that are grouped into two fields each
     	 * The items start on column 7 hence index 6
@@ -68,8 +66,6 @@ public class RoomData implements GameData {
                 System.err.println(e.getMessage());
             }
         }
-        System.out.println("ITEMS in map: " + items);
-        System.out.println("Exits: " + exits);
     }
 
     @Override
