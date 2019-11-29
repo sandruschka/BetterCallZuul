@@ -15,7 +15,6 @@ public class RemoveRoomsWithNoExit implements GameEditor {
 	 */
 	public void execute() {
 		
-		System.out.println(MyGame.getInstance().getAllRooms() + "\n\n");
 		Map<String, Room> rooms = MyGame.getInstance().getAllRooms();
 		Map<String, Room> tmp = new HashMap<String, Room>();
 		
@@ -29,7 +28,7 @@ public class RemoveRoomsWithNoExit implements GameEditor {
 		
 		MyGame.getInstance().setAllRooms(tmp); //set the temporary hashmap as the new update field of allRooms
 		
-		System.out.println(MyGame.getInstance().getAllRooms());
+		MyGame.getInstance().getPlayer().setCurrentRoom((String)MyGame.getInstance().getAllRooms().keySet().toArray()[0]);
 	}
 	
 	

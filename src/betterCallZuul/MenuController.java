@@ -11,6 +11,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import mygame.MyGame;
 
+/**
+ * Menu Controller
+ * @author sandra
+ *
+ */
 public class MenuController {
 
 	private Stage stage;
@@ -18,7 +23,6 @@ public class MenuController {
 	public MenuController(Stage primaryStage) {
 		stage = primaryStage;
 	}
-	
 	
 	@FXML
 	public Button loadCSV;
@@ -28,8 +32,6 @@ public class MenuController {
 	
 	@FXML
 	public void loadDefaultGame() {
-//		loadCSV("src/betterCallZuul/game1.csv");
-//		ApplicationLauncher.sceneManager.setScene(SceneType.GAME);
 		loadGame("src/betterCallZuul/game1.csv", SceneType.GAME);
 	}
 	
@@ -38,6 +40,9 @@ public class MenuController {
 		ApplicationLauncher.sceneManager.setScene(type);
 	}
 	
+	/**
+	 * The game needs to be loaded using a csv containing information about the rooms
+	 */
 	@FXML
 	public void loadGameCSV() {
 		FileChooser fileChooser = new FileChooser();
@@ -47,28 +52,18 @@ public class MenuController {
 		if (selectedFile == null)
 			return;
 		
-		//fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
-		System.out.println("file : " + selectedFile.getAbsoluteFile());
 		String filePath = selectedFile.getAbsolutePath();
 		if (filePath.contains(".csv")) {
-
 			loadGame(filePath, SceneType.GAME);
-//			loadCSV(filePath);
-//			ApplicationLauncher.sceneManager.setScene(SceneType.GAME);
-			//TODO sceneManager
-			
 		} else {
 			AlertType a = AlertType.ERROR;
-			
 			
 			Alert alert = new Alert(a);
 			alert.setTitle("File Error");
 			alert.setHeaderText(null);
-			//alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
 			alert.setContentText("The file has to be of type .csv");
 
 			alert.showAndWait();
-			//TODO create alert class
 		}
 	}
 	

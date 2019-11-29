@@ -59,9 +59,8 @@ public class RoomData implements GameData {
     	 */
     	
         for (int i = 6; i < data.size(); i += 2) {
-            System.out.println("ITEMS: " + data.get(i) + " weight: [" + data.get(i + 1 ) + "]");
             try {
-             items.put(data.get(i), new Item(data.get(i), Integer.valueOf(data.get(i + 1))));
+             items.put(data.get(i).replace(" ", ""), new Item(data.get(i).replace(" ", ""), Integer.valueOf(data.get(i + 1))));
             } catch(NullPointerException e) {
                 System.err.println(e.getMessage());
             }

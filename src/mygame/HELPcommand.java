@@ -34,8 +34,6 @@ public class HELPcommand extends Command {
     	 for (String cmd : Game.commands.getValidCommands())
     		 validCommands += cmd + ' ';
     	  
-    	return Game.messages.getString("lost") + "\n" + 
-    			Game.messages.getString("commands") + "\n   " +
-    			validCommands;
+    	return Game.messages.getString("lost");
     }
 }

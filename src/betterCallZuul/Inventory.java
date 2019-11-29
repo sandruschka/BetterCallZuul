@@ -53,8 +53,8 @@ public class Inventory {
 		}
 		
 		public List<String> getItemsString() {
-			return items.keySet().stream()
-	            	.map((desc) -> desc)
+			return items.entrySet().stream()
+	            	.map((desc) -> desc.getKey() + " (" + desc.getValue().getWeight() + ")")
 	            	.collect(Collectors.toList());
 		}
 }

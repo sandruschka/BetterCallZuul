@@ -75,7 +75,7 @@ public class MyGame extends Game {
     		   );
        
         setAllRooms(allRooms);
-        setPlayer(new Player(messages.getString("me"), allRooms.get("outside")));  // start game outside
+        setPlayer(new Player(messages.getString("me"), allRooms.get(allRooms.keySet().toArray()[0])));  // start game outside
     }
     
     @Override

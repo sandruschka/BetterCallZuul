@@ -73,7 +73,7 @@ public class Room
      */
     public List<String> getAllExits() {
     	return exitTranslator.entrySet().stream()
-    	.filter(r -> r.getValue().equalsIgnoreCase("null"))
+    	.filter(r -> !r.getValue().equalsIgnoreCase("null"))
     	.map(r -> r.getKey())
     	.collect(Collectors.toList());
     }
@@ -83,9 +83,7 @@ public class Room
      * @param direction the direction
      * @return the room to go to
      */
-    public String getExit(String direction) {
-    	return exitTranslator.get(direction); 
-	}
+    public String getExit(String direction) { return exitTranslator.get(direction); }
     
     public boolean hasExit() {
     	return exitTranslator.entrySet().stream()
@@ -138,14 +136,14 @@ public class Room
         addItem(description, new Item(description, weight));               
     }
     
-    private void addItem(String desc, Item item) { items.put(desc, item); }
+    public void addItem(String desc, Item item) { items.put(desc, item); }
     
     /**
      * Does the room contain an item
      * @param description the item
      * @return the item's weight or 0 if none
      */
-    public boolean containsItem(String description) {return items.containsKey(description); }
+    public boolean containsItem(String description) { return items.containsKey(description); }
     
     
     /**
@@ -168,7 +166,6 @@ public class Room
     	
     	String itemName = oldValue.substring(0, oldValue.indexOf(" "));//.split(" ");
     	
-    	System.out.println(itemName + " " + newValue + " " + weight);
     	Item item = items.get(itemName);
     	items.remove(itemName);
     	items.put(newValue, item);

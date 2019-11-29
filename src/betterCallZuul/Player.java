@@ -30,7 +30,6 @@ public class Player {
      * @param room the room the player is created in
      */
     public Player(String name, Room room) {
-    	System.out.println("room" + room.getDescription());
         this.name = name;
         currentRoom = room;
         inventory = new Inventory();
@@ -71,6 +70,7 @@ public class Player {
             Game.out.println(desc + " " + Game.messages.getString("room")); // is not in the room"
             return false;
         }
+        
         Item item = getCurrentRoom().getItem(desc);
         if (inventory.tooHeavyToPickUp(item.getWeight(), MAX_WEIGHT)) {
             // The player is carrying too much

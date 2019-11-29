@@ -7,8 +7,6 @@ import mygame.MyGame;
 
 public class AddItemsInRooms {
 	
-	
-	@Override
 	public void execute(String itemName, int weight ) {
 		Map<String, Room> rooms = MyGame.getInstance().getAllRooms();
 		

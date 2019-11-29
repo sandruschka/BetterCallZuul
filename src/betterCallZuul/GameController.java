@@ -60,6 +60,8 @@ public class GameController {
 	public ContextMenu itemsMenu;
 	@FXML
 	public MenuItem addItem;
+	@FXML
+	public Label maxWeight;
 	
 	private Map<String, Button> dirButtons;
 	
@@ -147,14 +149,16 @@ public class GameController {
 		    @Override
 		    public Item call(ButtonType b) {
 		 
+		    	String name = itemName.getText();
+		    	String weight = itemWeight.getText();
 		    	
 		        if (b == buttonTypeOk) {
-		        	if (validAddItemInput(itemName.getText(), itemWeight.getText())) {
+		        	if (validAddItemInput(name, weight)) {
 		        		
 		        		if (type.equalsIgnoreCase("create")) { //create an item
-		        			new AddItemsInRooms().execute(itemName.getText(), Integer.valueOf(itemWeight.getText()));//convert the weight string to an Integer 
+		        			new AddItemsInRooms().execute(name, Integer.valueOf(weight));//convert the weight string to an Integer 
 		        		} else { //modify an item
-		        			MyGame.getInstance().getPlayer().getCurrentRoom().editItem(type, itemName.getText(), Integer.valueOf(itemWeight.getText()));
+		        			MyGame.getInstance().getPlayer().getCurrentRoom().editItem(type, name, Integer.valueOf(weight));
 		        		}
 		        			
 			        	updateView();
@@ -257,6 +261,7 @@ public class GameController {
 	public void updateView() {
 		Room currentRoom = MyGame.getInstance().getPlayer().getCurrentRoom();
 
+		maxWeight.setText("Maximum Inventory Weight: " + MyGame.getInstance().getPlayer().getMaxWeight());
 		directionButtonsAvailability();
 		
 		roomDescription.setText(currentRoom.getDescription());
@@ -270,7 +275,7 @@ public class GameController {
 		characterListView.setItems(observableCharactersList);
 		
 		/**
-		 * Create cell factories for the listview so that there is a context menu or right click on the items in the listView
+		 * Create cell factories for the listView so that there is a context menu or right click on the items in the listView
 		 */
 		itemListView.setCellFactory(new Callback<ListView<String>, ListCell<String>>() { 
 			
@@ -319,7 +324,6 @@ public class GameController {
 	
 	private void directionButtonsAvailability() {
 		
-		Button b = dirButtons.get("east");
 		for (String dir : dirButtons.keySet()) {
 			String availableExit = MyGame.getInstance().getPlayer().getCurrentRoom().getExit(dir);
 			dirButtons.get(dir).setDisable(availableExit.equalsIgnoreCase("null") ? true : false);
